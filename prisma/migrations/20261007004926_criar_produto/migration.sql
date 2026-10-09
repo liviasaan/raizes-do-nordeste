@@ -1,0 +1,13 @@
+-- CreateTable
+CREATE TABLE "Produto" (
+    "id" SERIAL NOT NULL,
+    "nome" TEXT NOT NULL,
+    "descricao" TEXT,
+    "preco" DECIMAL(10,2) NOT NULL,
+    "estoque" INTEGER NOT NULL DEFAULT 0,
+    "ativo" BOOLEAN NOT NULL DEFAULT true,
+    "criadoEm" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "atualizadoEm" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Produto_pkey" PRIMARY KEY ("id")
+);
