@@ -1,4 +1,4 @@
-﻿# Raízes do Nordeste - API Back-End
+# Raízes do Nordeste - API Back-End
 
 ## Sobre o projeto
 
