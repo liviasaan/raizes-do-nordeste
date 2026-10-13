@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
   criarPedido,
   atualizarStatusPedido,
+  consultarPedidos,
 } from "../controllers/pedido.controller";
 import { autenticarToken } from "../middlewares/auth.middleware";
 
@@ -14,6 +15,13 @@ router.post(
   criarPedido
 );
 
+router.get(
+  "/pedidos",
+  autenticarToken,
+  permitirPerfis("ADMIN", "GERENTE"),
+  consultarPedidos
+);
+
 router.patch(
   "/pedidos/:id/status",
   autenticarToken,
@@ -22,3 +30,5 @@ router.patch(
 );
 
 export default router;
+
+

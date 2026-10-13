@@ -1,4 +1,5 @@
-﻿import { AuthRequest } from "../middlewares/auth.middleware";
+﻿import { CanalPedido } from "@prisma/client";
+import { AuthRequest } from "../middlewares/auth.middleware";
 import { Request, Response } from "express";
 import prisma from "../database/db";
 
@@ -662,3 +663,46 @@ export async function atualizarStatusPedido(
     });
   }
 }
+
+// CONSULTAR PEDIDOS POR CANAL
+export async function consultarPedidos(req: Request, res: Response) {
+  try {
+  const canalPedido = req.query.canalPedido;
+
+  if (canalPedido !== undefined) {
+    const canalValido = typeof canalPedido === "string" && canaisPermitidos.includes(canalPedido);
+        if (!canalValido) {
+      return res.status(422).json({
+        error: "CANAL_PEDIDO_INVALIDO",
+        message: "Canal do pedido inválido.",
+        details: { canaisPermitidos },
+      });
+    }
+  }
+
+  const pedidos = await prisma.pedido.findMany({
+  where: typeof canalPedido === "string"
+    ? { canalPedido: canalPedido as CanalPedido }
+    : {},
+});
+  // e aplicar o filtro where quando houver canalPedido
+
+  return res.status(200).json(pedidos);
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      error: "ERRO_INTERNO",
+      message: "Erro ao consultar pedidos.",
+    });
+  }
+}
+
+
+
+
+
+
+
+
